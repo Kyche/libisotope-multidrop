@@ -95,7 +95,7 @@ Isotope.prototype.send = function(packet) {
 };
 
 Isotope.prototype.mouseRaw = function(buttons, deltaX, deltaY, deltaScroll) {
-	var packet = zeros(5), length = 4;
+	var packet = zeros(6), length = 4;
 	packet[1] = 0x2;
 	packet[0] = this.target;
 	packet[2] = 0xff & (buttons || 0);
@@ -114,15 +114,19 @@ Isotope.prototype.mouseRaw = function(buttons, deltaX, deltaY, deltaScroll) {
 		}
 	}
 
-	packet[0] |= length;
-	this.send(packet.slice(0, length + 1));
+	packet[0] |= length + 1;
+	this.send(packet.slice(0, length + 2));
 };
 
 Isotope.prototype.keyboardRaw = function(modifiers, keys) {
 	var packet = zeros(8), length = 0;
 	packet[1] = 0x1;
 	packet[0] = this.target;
-	if(!modifiers && (!keys || keys.length == 0)) return this.send(packet.slice(0, 1));
+	if(!modifiers && (!keys || keys.length == 0)){
+		packet[0] |= 1;
+		console.log(packet.slice(0,2));
+	        return this.send(packet.slice(0, 2));
+	}
 
 	if(!Array.isArray(keys)) throw new Error("Keys should be an array");
 	if(keys.length > 6) throw new Error("A maximum of 6 keys can be pressed at any time.");
@@ -131,8 +135,9 @@ Isotope.prototype.keyboardRaw = function(modifiers, keys) {
 	for(var i = 0; i < keys.length; i++)
 		packet[i + 3] = 0xff & (keys[i] || 0);
 
-	packet[0] |= keys.length + 1;
-	this.send(packet.slice(0, 2 + keys.length));
+	packet[0] |= keys.length + 2;
+	console.log(packet.slice(0,3+keys.length));
+	this.send(packet.slice(0, 3 + keys.length));
 };
 
 Isotope.prototype.close = function() {
