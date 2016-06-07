@@ -1,5 +1,5 @@
 {
-  "name": "libisotope",
+  "name": "libisotope-multidrop",
   "author": "Benjamin Pannell <admin@sierrasoftworks.com>",
   "version": "1.0.1",
   "description": "A Node.js port of the Isotope USB input emulation library, allowing Keyboard/Mouse emulation through an ATmega32u4.",
