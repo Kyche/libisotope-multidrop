@@ -4,7 +4,7 @@
   "version": "1.0.1",
   "description": "A Node.js port of the Isotope USB input emulation library, allowing Keyboard/Mouse emulation through an ATmega32u4.",
   "licence": "MIT",
-  "repository": "https://github.com/Kyche/Isotope/src/",
+  "repository": "https://github.com/Kyche/libisotope-multidrop",
   "main": "./isotope.js",
   "dependencies": {
     "serialport": "*"
