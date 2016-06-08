@@ -91,6 +91,7 @@ Isotope.prototype.send = function(packet) {
 
 Isotope.prototype.mouseRaw = function(target,buttons, deltaX, deltaY, deltaScroll) {
 	var packet = zeros(6), length = 4;
+	target = target << 5;
 	packet[1] = 0x2;
 	packet[0] = target;
 	packet[2] = 0xff & (buttons || 0);
@@ -115,6 +116,7 @@ Isotope.prototype.mouseRaw = function(target,buttons, deltaX, deltaY, deltaScrol
 
 Isotope.prototype.keyboardRaw = function(target,modifiers, keys) {
 	var packet = zeros(8), length = 0;
+	target = target << 5
 	packet[1] = 0x1;
 	packet[0] = target;
 	if(!modifiers && (!keys || keys.length == 0)){

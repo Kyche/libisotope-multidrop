@@ -35,8 +35,7 @@ function Keyboard(isotope) {
 	this.temporaryModifiers = 0;
 }
 
-Keyboard.prototype = {
-	get then(target) {
+Keyboard.prototype.then = function(target) {
 		if(this.updateTimeout) {
 			clearTimeout(this.updateTimeout);
 			this.updateTimeout = null;
@@ -45,26 +44,28 @@ Keyboard.prototype = {
 		this.isotope.keyboardRaw(target,this.activeModifiers | this.temporaryModifiers, this.activeKeys);
 		this.temporaryModifiers = 0;
 		return this;
-	},
-	get ctrl(target) {
+}
+
+
+Keyboard.prototype.ctrl = function(target) {
 		this.temporaryModifiers |= keyCodes.modifiers.ctrl;
 		return this.queueUpdate(target);
-	},
-	get alt(target) {
+	}
+Keyboard.prototype.alt = function(target) {
 		this.temporaryModifiers |= keyCodes.modifiers.alt;
 		return this.queueUpdate(target);
-	},
-	get shift(target) {
+	}
+Keyboard.prototype.shift = function(target) {
 		this.temporaryModifiers |= keyCodes.modifiers.shift;
 		return this.queueUpdate(target);
-	},
-	get releaseAll(target) {
+	}
+Keyboard.prototype.releaseAll = function(target) {
 		this.activeKeys = [];
 		this.temporaryModifiers = 0;
 		this.activeModifiers = 0;
 		return this.queueUpdate(target);
 	}
-};
+}
 
 Keyboard.prototype.queueUpdate = function(target) {
 	if(!this.updateTimeout)
@@ -154,10 +155,10 @@ Keyboard.prototype.write = function(target,text) {
 		}
 	}
 
-	this.isotope.keyboardRaw();
+	this.isotope.keyboardRaw(target);
 	return this;
 };
 
-Keyboard.prototype.now = function() {
+Keyboard.prototype.now = function(target) {
 	return this.then(target);
 };
