@@ -65,7 +65,7 @@ Keyboard.prototype.releaseAll = function(target) {
 		this.activeModifiers = 0;
 		return this.queueUpdate(target);
 	}
-}
+
 
 Keyboard.prototype.queueUpdate = function(target) {
 	if(!this.updateTimeout)
