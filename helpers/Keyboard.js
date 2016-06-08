@@ -36,46 +36,46 @@ function Keyboard(isotope) {
 }
 
 Keyboard.prototype = {
-	get then() {
+	get then(target) {
 		if(this.updateTimeout) {
 			clearTimeout(this.updateTimeout);
 			this.updateTimeout = null;
 		}
 
-		this.isotope.keyboardRaw(this.activeModifiers | this.temporaryModifiers, this.activeKeys);
+		this.isotope.keyboardRaw(target,this.activeModifiers | this.temporaryModifiers, this.activeKeys);
 		this.temporaryModifiers = 0;
 		return this;
 	},
-	get ctrl() {
+	get ctrl(target) {
 		this.temporaryModifiers |= keyCodes.modifiers.ctrl;
-		return this.queueUpdate();
+		return this.queueUpdate(target);
 	},
-	get alt() {
+	get alt(target) {
 		this.temporaryModifiers |= keyCodes.modifiers.alt;
-		return this.queueUpdate();
+		return this.queueUpdate(target);
 	},
-	get shift() {
+	get shift(target) {
 		this.temporaryModifiers |= keyCodes.modifiers.shift;
-		return this.queueUpdate();
+		return this.queueUpdate(target);
 	},
-	get releaseAll() {
+	get releaseAll(target) {
 		this.activeKeys = [];
 		this.temporaryModifiers = 0;
 		this.activeModifiers = 0;
-		return this.queueUpdate();
+		return this.queueUpdate(target);
 	}
 };
 
-Keyboard.prototype.queueUpdate = function() {
+Keyboard.prototype.queueUpdate = function(target) {
 	if(!this.updateTimeout)
 		this.updateTimeout = process.nextTick((function() {
 			this.updateTimeout = null;
-			this.now();
+			this.now(target);
 		}).bind(this));
 	return this;
 };
 
-Keyboard.prototype.press = function(keys) {
+Keyboard.prototype.press = function(target,keys) {
 	if(!Array.isArray(keys))
 		keys = Array.prototype.slice.call(arguments, 0);
 	for(var i = 0; i < keys.length; i++)
@@ -84,32 +84,32 @@ Keyboard.prototype.press = function(keys) {
 	if(this.activeKeys.length > 6)
 		this.activeKeys = this.activeKeys.slice(this.activeKeys.length - 6);
 
-	this.queueUpdate();
+	this.queueUpdate(target);
 	return this;
 };
 
-Keyboard.prototype.release = function(keys) {
+Keyboard.prototype.release = function(target,keys) {
 	if(!Array.isArray(keys))
 		keys = Array.prototype.slice.call(arguments, 0);
 	for(var i = 0; i < keys.length; i++)
 		if(~this.activeKeys.indexOf(keys[i]))
 			this.activeKeys.splice(this.activeKeys.indexOf(keys[i]), 1);
 
-	this.queueUpdate();
+	this.queueUpdate(target);
 	return this;
 };
 
-Keyboard.prototype.pressModifiers = function(modifiers) {
+Keyboard.prototype.pressModifiers = function(target,modifiers) {
 	if(!Array.isArray(modifiers))
 		modifiers = Array.prototype.slice.call(arguments, 0);
 	for(var i = 0; i < modifiers.length; i++)
 		this.activeModifiers |= modifiers[i];
 
-	this.queueUpdate();
+	this.queueUpdate(target);
 	return this;
 };
 
-Keyboard.prototype.releaseModifiers = function(modifiers) {
+Keyboard.prototype.releaseModifiers = function(target,modifiers) {
 	if(!Array.isArray(modifiers))
 		modifiers = Array.prototype.slice.call(arguments, 0);
 	for(var i = 0; i < modifiers.length; i++) {
@@ -117,18 +117,18 @@ Keyboard.prototype.releaseModifiers = function(modifiers) {
 		this.activeModifiers &= compliment;
 	}
 
-	this.queueUpdate();
+	this.queueUpdate(target);
 	return this;
 };
 
-Keyboard.prototype.write = function(text) {
+Keyboard.prototype.write = function(target,text) {
 	var index, lastIndex, c, m;
 	for(var i = 0; i < text.length; i++) {
 		lastIndex = index;
 
 		// Handle the same character
 		if(c == text[i]) {
-			this.isotope.keyboardRaw();
+			this.isotope.keyboardRaw(target);
 
 			// And disable handling of the shift-changed keys
 			lastIndex = -1;
@@ -136,7 +136,7 @@ Keyboard.prototype.write = function(text) {
 
 		c = text[i];
 
-		if(~(index = charMap.immutable.indexOf(c))) this.isotope.keyboardRaw(0, [codeMap.immutable[index]]);
+		if(~(index = charMap.immutable.indexOf(c))) this.isotope.keyboardRaw(target,0, [codeMap.immutable[index]]);
 		else {
 			m = 0;
 			if(~(index = charMap.normal.indexOf(c))) m = 0;
@@ -147,10 +147,10 @@ Keyboard.prototype.write = function(text) {
 			}
 
 			// Handle the same key (with shift changed)
-			if(index == lastIndex) this.isotope.keyboardRaw();
+			if(index == lastIndex) this.isotope.keyboardRaw(target);
 
 			// Send the new key
-			this.isotope.keyboardRaw(m, [codeMap.mutable[index]]);
+			this.isotope.keyboardRaw(target,m, [codeMap.mutable[index]]);
 		}
 	}
 
@@ -159,5 +159,5 @@ Keyboard.prototype.write = function(text) {
 };
 
 Keyboard.prototype.now = function() {
-	return this.then;
+	return this.then(target);
 };

@@ -28,7 +28,6 @@ function Isotope(device) {
 	this.writeInterval = null;
 
 	// Specifies which Teensy should process a fired command
-	this.target = 0x0;
 
 
 	// Note: with the Teensy 2.0 + BBB, the emitted data comes as S8N1
@@ -75,10 +74,6 @@ util.inherits(Isotope, EventEmitter);
 Isotope.keyboard = require('./keycodes/keyboard');
 Isotope.mouse = require('./keycodes/mouse');
 
-Isotope.prototype.setTarget = function(target) {
-	this.target = target << 5;
-}
-
 Isotope.prototype.send = function(packet) {
 	if(packet) this.buffer.push(packet);
 	if(!this.buffer.length) return;
@@ -94,10 +89,10 @@ Isotope.prototype.send = function(packet) {
 	this.uart.write(packet);
 };
 
-Isotope.prototype.mouseRaw = function(buttons, deltaX, deltaY, deltaScroll) {
+Isotope.prototype.mouseRaw = function(target,buttons, deltaX, deltaY, deltaScroll) {
 	var packet = zeros(6), length = 4;
 	packet[1] = 0x2;
-	packet[0] = this.target;
+	packet[0] = target;
 	packet[2] = 0xff & (buttons || 0);
 	packet[3] = 0xff & (deltaX || 0);
 	packet[4] = 0xff & (deltaY || 0);
@@ -118,10 +113,10 @@ Isotope.prototype.mouseRaw = function(buttons, deltaX, deltaY, deltaScroll) {
 	this.send(packet.slice(0, length + 2));
 };
 
-Isotope.prototype.keyboardRaw = function(modifiers, keys) {
+Isotope.prototype.keyboardRaw = function(target,modifiers, keys) {
 	var packet = zeros(8), length = 0;
 	packet[1] = 0x1;
-	packet[0] = this.target;
+	packet[0] = target;
 	if(!modifiers && (!keys || keys.length == 0)){
 		packet[0] |= 1;
 		console.log(packet.slice(0,2));

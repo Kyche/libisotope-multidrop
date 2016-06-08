@@ -29,7 +29,7 @@ Mouse.prototype = {
 			this.updateTimeout = null;
 		}
 
-		this.isotope.mouseRaw(this.buttons | this.tempButtons, this.deltaX, this.deltaY, this.deltaScroll);
+		this.isotope.mouseRaw(target,this.buttons | this.tempButtons, this.deltaX, this.deltaY, this.deltaScroll);
 		this.tempButtons = 0;
 		this.deltaX = 0;
 		this.deltaY = 0;
@@ -38,44 +38,44 @@ Mouse.prototype = {
 
 		return this;
 	},
-	get left() {
+	get left(target) {
 		this.tempButtons |= mouse.left;
-		return this.queueUpdate();
+		return this.queueUpdate(target);
 	},
-	get right() {
+	get right(target) {
 		this.tempButtons |= mouse.right;
-		return this.queueUpdate();
+		return this.queueUpdate(target);
 	},
-	get middle() {
+	get middle(target) {
 		this.tempButtons |= mouse.middle;
-		return this.queueUpdate();
+		return this.queueUpdate(target);
 	}
 };
 
-Mouse.prototype.queueUpdate = function() {
+Mouse.prototype.queueUpdate = function(target) {
 	if(!this.updateTimeout)
 		this.updateTimeout = process.nextTick((function() {
 			this.updateTimeout = null;
-			this.now();
+			this.now(target);
 		}).bind(this));
 	return this;
 };
 
-Mouse.prototype.now = function() {
-	return this.then;
+Mouse.prototype.now = function(target) {
+	return this.then(target);
 };
 
-Mouse.prototype.press = function(buttons) {
+Mouse.prototype.press = function(target,buttons) {
 	if(!Array.isArray(buttons))
 		buttons = Array.prototype.slice.call(arguments, 0);
 	for(var i = 0; i < buttons.length; i++)
 		this.buttons |= buttons[i];
 
-	this.queueUpdate();
+	this.queueUpdate(target);
 	return this;
 };
 
-Mouse.prototype.release = function(buttons) {
+Mouse.prototype.release = function(target,buttons) {
 	if(!Array.isArray(buttons))
 		buttons = Array.prototype.slice.call(arguments, 0);
 	for(var i = 0; i < buttons.length; i++) {
@@ -83,19 +83,19 @@ Mouse.prototype.release = function(buttons) {
 		this.buttons &= compliment;
 	}
 
-	this.queueUpdate();
+	this.queueUpdate(target);
 	return this;
 };
 
-Mouse.prototype.scroll = function(delta) {
+Mouse.prototype.scroll = function(target,delta) {
 	this.deltaScroll += delta;
-	this.queueUpdate();
+	this.queueUpdate(target);
 	return this;
 };
 
-Mouse.prototype.move = function(deltaX, deltaY) {
+Mouse.prototype.move = function(target,deltaX, deltaY) {
 	this.deltaX += deltaX;
 	this.deltaY += deltaY;
-	this.queueUpdate();
+	this.queueUpdate(target);
 	return this;
 };
