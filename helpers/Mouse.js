@@ -23,7 +23,7 @@ function Mouse(isotope) {
 }
 
 Mouse.prototype = {
-	get then() {
+	get then(target) {
 		if(this.updateTimeout) {
 			clearTimeout(this.updateTimeout);
 			this.updateTimeout = null;

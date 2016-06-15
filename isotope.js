@@ -15,9 +15,12 @@ var SerialPort = require('serialport').SerialPort,
 	util = require('util');
 
 var Keyboard = require('./helpers/Keyboard'),
-	Mouse = require('./helpers/Mouse');
+	Mouse = require('./helpers/Mouse'),
+	Utils = require('./helpers/Utils')
 
 module.exports = Isotope;
+
+
 
 function Isotope(device) {
 	this.open = false;
@@ -88,6 +91,18 @@ Isotope.prototype.send = function(packet) {
 		}
 	this.uart.write(packet);
 };
+
+Isotope.prototype.utilsRaw = function(target,operation) {
+	var packet = zeroes(3), length = 1;
+	target = target << 5;
+
+	packet[0] = target;
+	packet[1] = 0x00;
+	packet[2] = operation;
+
+	this.send(packet.slice(0,3));
+
+}
 
 Isotope.prototype.mouseRaw = function(target,buttons, deltaX, deltaY, deltaScroll) {
 	var packet = zeros(6), length = 4;
