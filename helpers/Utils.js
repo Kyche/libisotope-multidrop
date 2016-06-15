@@ -20,8 +20,7 @@ function Utils() {
   this.op = 0x0;
 }
 
-Utils.prototype = {
-	get then(target) {
+Utils.prototype.then = function(target) {
 		if(this.updateTimeout) {
 			clearTimeout(this.updateTimeout);
 			this.updateTimeout = null;
