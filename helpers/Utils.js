@@ -14,7 +14,7 @@
 module.exports = Utils;
 
 function Utils(isotope) {
-  this.isoptope = isotope;
+  this.isotope = isotope;
 
   this.op = 0x0;
   this.updateTimeout = null;
