@@ -22,8 +22,7 @@ function Mouse(isotope) {
 	this.updateTimeout = null;
 }
 
-Mouse.prototype = {
-	get then(target) {
+Mouse.prototype.then = function (target) {
 		if(this.updateTimeout) {
 			clearTimeout(this.updateTimeout);
 			this.updateTimeout = null;
@@ -37,20 +36,20 @@ Mouse.prototype = {
 		this.updateTimeout = null;
 
 		return this;
-	},
-	get left(target) {
+	}
+Mouse.prototype.left = function (target) {
 		this.tempButtons |= mouse.left;
 		return this.queueUpdate(target);
-	},
-	get right(target) {
+	}
+Mouse.prototype.right = function (target) {
 		this.tempButtons |= mouse.right;
 		return this.queueUpdate(target);
-	},
-	get middle(target) {
+	}
+
+Mouse.prototype.middle = function (target) {
 		this.tempButtons |= mouse.middle;
 		return this.queueUpdate(target);
 	}
-};
 
 Mouse.prototype.queueUpdate = function(target) {
 	if(!this.updateTimeout)
