@@ -16,8 +16,10 @@ module.exports = Utils;
 function Utils(isotope) {
   this.isotope = isotope;
 
-  this.op = 0x0;
   this.updateTimeout = null;
+
+  this.op = 0x0;
+
 }
 
 Utils.prototype.then = function(target) {
