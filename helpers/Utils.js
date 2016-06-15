@@ -11,6 +11,7 @@
  * Authored by Kevin Chen 2016
  */
 
+var mouse = require('../keycodes/utils');
 module.exports = Utils;
 
 function Utils() {
