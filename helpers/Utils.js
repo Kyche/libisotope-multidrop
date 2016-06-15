@@ -11,13 +11,13 @@
  * Authored by Kevin Chen 2016
  */
 
-var mouse = require('../keycodes/utils');
 module.exports = Utils;
 
-function Utils() {
+function Utils(isotope) {
   this.isoptope = isotope;
 
   this.op = 0x0;
+  this.updateTimeout = null;
 }
 
 Utils.prototype.then = function(target) {
@@ -32,7 +32,6 @@ Utils.prototype.then = function(target) {
 
 		return this;
 	}
-};
 
 Utils.prototype.queueUpdate = function(target) {
 	if(!this.updateTimeout)
@@ -41,25 +40,25 @@ Utils.prototype.queueUpdate = function(target) {
 			this.now(target);
 		}).bind(this));
 	return this;
-};
+}
 
 Utils.prototype.now = function(target) {
 	return this.then(target);
-};
+}
 
 Utils.prototype.poll = function(target) {
 	this.op = 0x1;
 
 	this.queueUpdate(target);
 	return this;
-};
+}
 
 Utils.prototype.poll = function(target) {
 	this.op = 0x2;
 
 	this.queueUpdate(target);
 	return this;
-};
+}
 
 function op_map(operation) {
 	m = {nothing: 0x0,

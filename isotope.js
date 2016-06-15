@@ -45,6 +45,7 @@ function Isotope(device) {
 
 	this.keyboard = new Keyboard(this);
 	this.mouse = new Mouse(this);
+	this.utils = new Utils(this);
 
 	this.uart.on('open', (function() {
 		this.open = true;
