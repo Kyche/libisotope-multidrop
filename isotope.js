@@ -94,7 +94,7 @@ Isotope.prototype.send = function(packet) {
 };
 
 Isotope.prototype.utilsRaw = function(target,operation) {
-	var packet = zeroes(3), length = 1;
+	var packet = zeros(3), length = 1;
 	target = target << 5;
 
 	packet[0] = target;
