@@ -65,8 +65,10 @@ Mouse.prototype.now = function(target) {
 };
 
 Mouse.prototype.press = function(target,buttons) {
-	if(!Array.isArray(buttons))
+	if(!Array.isArray(buttons)) {
 		buttons = Array.prototype.slice.call(arguments, 0);
+		buttons.shift();
+	}
 	for(var i = 0; i < buttons.length; i++)
 		this.buttons |= buttons[i];
 
@@ -75,8 +77,10 @@ Mouse.prototype.press = function(target,buttons) {
 };
 
 Mouse.prototype.release = function(target,buttons) {
-	if(!Array.isArray(buttons))
+	if(!Array.isArray(buttons)) {
 		buttons = Array.prototype.slice.call(arguments, 0);
+		buttons.shift();
+	}
 	for(var i = 0; i < buttons.length; i++) {
 		var compliment = 0xff ^ buttons[i];
 		this.buttons &= compliment;

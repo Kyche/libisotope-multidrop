@@ -77,8 +77,10 @@ Keyboard.prototype.queueUpdate = function(target) {
 };
 
 Keyboard.prototype.press = function(target,keys) {
-	if(!Array.isArray(keys))
+	if(!Array.isArray(keys)) {
 		keys = Array.prototype.slice.call(arguments, 0);
+		keys.shift();
+	}
 	for(var i = 0; i < keys.length; i++)
 		if(!~this.activeKeys.indexOf(keys[i]))
 			this.activeKeys.push(keys[i]);
@@ -90,8 +92,10 @@ Keyboard.prototype.press = function(target,keys) {
 };
 
 Keyboard.prototype.release = function(target,keys) {
-	if(!Array.isArray(keys))
+	if(!Array.isArray(keys)) {
 		keys = Array.prototype.slice.call(arguments, 0);
+		keys.shift();
+	}
 	for(var i = 0; i < keys.length; i++)
 		if(~this.activeKeys.indexOf(keys[i]))
 			this.activeKeys.splice(this.activeKeys.indexOf(keys[i]), 1);
@@ -101,8 +105,10 @@ Keyboard.prototype.release = function(target,keys) {
 };
 
 Keyboard.prototype.pressModifiers = function(target,modifiers) {
-	if(!Array.isArray(modifiers))
+	if(!Array.isArray(modifiers)) {
 		modifiers = Array.prototype.slice.call(arguments, 0);
+		modifiers.shift();
+	}
 	for(var i = 0; i < modifiers.length; i++)
 		this.activeModifiers |= modifiers[i];
 
@@ -111,8 +117,10 @@ Keyboard.prototype.pressModifiers = function(target,modifiers) {
 };
 
 Keyboard.prototype.releaseModifiers = function(target,modifiers) {
-	if(!Array.isArray(modifiers))
+	if(!Array.isArray(modifiers)) {
 		modifiers = Array.prototype.slice.call(arguments, 0);
+		modifiers.shift();
+	}
 	for(var i = 0; i < modifiers.length; i++) {
 		var compliment = 0xff ^ modifiers[i];
 		this.activeModifiers &= compliment;
