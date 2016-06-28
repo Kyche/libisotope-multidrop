@@ -1,12 +1,27 @@
 {
   "name": "libisotope-multidrop",
-  "author": "Benjamin Pannell <admin@sierrasoftworks.com>",
+  "author": {
+    "name": "Benjamin Pannell",
+    "email": "admin@sierrasoftworks.com"
+  },
   "version": "1.0.1",
   "description": "A Node.js port of the Isotope USB input emulation library, allowing Keyboard/Mouse emulation through an ATmega32u4.",
   "licence": "MIT",
-  "repository": "https://github.com/Kyche/libisotope-multidrop",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kyche/libisotope-multidrop"
+  },
   "main": "./isotope.js",
   "dependencies": {
     "serialport": "*"
-  }
+  },
+  "readme": "# Isotope\n**USB Input emulation library built on the ATmega32u4**\n\nIsotope is a project designed to permit the emulation of USB HID (Human Input Device) class peripherals on any system with a compatible USB HID driver (most modern operating systems) through the combination of an easy to use developer library and an ATmega32u4 chip connected through a serial port. Its initial target is the Raspberry Pi, allowing voice control of a computer without the need for any specialized software, and with no processing overhead on the target system.\n\n## Example\n\n```javascript\nvar Isotope = require('libisotope');\nvar iso = new Isotope('/dev/ttyAMA0');\niso.keyboard.write(0,\"Hello World!\");\niso.then.ctrl(0).alt(0).press(0,Isotope.keyboard.keys.delete).then.releaseAll;\n```\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/Kyche/libisotope-multidrop/issues"
+  },
+  "_id": "libisotope-multidrop@1.0.1",
+  "_shasum": "8c266bc63de5156901e9a5db88235e1f940bc582",
+  "_resolved": "git+https://git@github.com/kyche/libisotope-multidrop.git#b1af9e403706035c4a949b8d3b82bde248d3adf3",
+  "_from": "git+https://git@github.com/kyche/libisotope-multidrop.git"
 }

@@ -94,13 +94,15 @@ Isotope.prototype.send = function(packet) {
 };
 
 Isotope.prototype.utilsRaw = function(target,operation) {
-	var packet = zeros(3), length = 1;
+	var packet = zeros(3), length = 2;
 	target = target << 5;
 
 	packet[0] = target;
 	packet[1] = 0x00;
 	packet[2] = operation;
 
+	packet[0] |= length;
+	console.log(packet.slice(0,3));
 	this.send(packet.slice(0,3));
 
 }

@@ -55,7 +55,7 @@ Utils.prototype.poll = function(target) {
 	return this;
 }
 
-Utils.prototype.poll = function(target) {
+Utils.prototype.reset = function(target) {
 	this.op = 0x2;
 
 	this.queueUpdate(target);
