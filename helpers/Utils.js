@@ -29,7 +29,6 @@ Utils.prototype.then = function(target) {
 		}
 
 		this.isotope.utilsRaw(target,this.op);
-		this.tempButtons = 0x0;
 		this.updateTimeout = null;
 
 		return this;
@@ -56,14 +55,15 @@ Utils.prototype.poll = function(target) {
 }
 
 Utils.prototype.reset = function(target) {
-	this.op = 0x2;
+        this.op = 0x2;
 
-	this.queueUpdate(target);
-	return this;
+        this.queueUpdate(target);
+        return this;
 }
+
 
 function op_map(operation) {
 	m = {nothing: 0x0,
-       poll: 0x1,
-			 reset: 0x2}
+	     poll: 0x1,
+	     reset: 0x2}
 }

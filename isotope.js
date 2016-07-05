@@ -102,7 +102,7 @@ Isotope.prototype.utilsRaw = function(target,operation) {
 	packet[2] = operation;
 
 	packet[0] |= length;
-	console.log(packet.slice(0,3));
+	//console.log(packet.slice(0,3));
 	this.send(packet.slice(0,3));
 
 }
@@ -139,7 +139,7 @@ Isotope.prototype.keyboardRaw = function(target,modifiers, keys) {
 	packet[0] = target;
 	if(!modifiers && (!keys || keys.length == 0)){
 		packet[0] |= 1;
-		console.log(packet.slice(0,2));
+		//console.log(packet.slice(0,2));
 	        return this.send(packet.slice(0, 2));
 	}
 
@@ -151,7 +151,7 @@ Isotope.prototype.keyboardRaw = function(target,modifiers, keys) {
 		packet[i + 3] = 0xff & (keys[i] || 0);
 
 	packet[0] |= keys.length + 2;
-	console.log(packet.slice(0,3+keys.length));
+	//console.log(packet.slice(0,3+keys.length));
 	this.send(packet.slice(0, 3 + keys.length));
 };
 
